@@ -17,3 +17,14 @@ $ npm install txt2srt
 ``` js
 var txt2srt = require('txt2srt');
 ```
+### Command-line example
+
+```
+node index.js path/to/data.json key
+```
+
+so for instance :
+
+```
+node index.js test/data.json summary
+```
