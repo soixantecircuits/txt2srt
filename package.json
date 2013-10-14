@@ -1,0 +1,32 @@
+{
+  "name": "txt2srt",
+  "version": "0.0.1",
+  "description": "A simple way to transform your json data into multiple srt txt files",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/grunt ci"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabrielstuff/txt2srt"
+  },
+  "keywords": ["srt","txt"],
+  "author": "gabrielstuff <gabriel@soixantecircuits.fr>",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/gabrielstuff/txt2srt/issues"
+  },
+  "dependencies": {
+    "subtitles-parser":"",
+    "lodash":"",
+    "moment":""
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.1",
+    "grunt-mocha-cli": "~1.1.0",
+    "grunt-complexity": "~0.1.3",
+    "grunt-cli": "~0.1.9"
+  }
+}
