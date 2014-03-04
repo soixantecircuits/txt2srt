@@ -5,7 +5,9 @@ var _ = require('lodash'),
 
 
 var text2srt = (function() {
-  var mod = {};
+  var mod = {},
+      delay = 1.0,
+      duration = 1.0;
 
   mod.convert = function(data) {
     var srtObject = function() {
@@ -20,10 +22,25 @@ var text2srt = (function() {
     _.each(srt, function(el, index) {
       var instance = new srtObject();
       instance.id = index + 1;
+      if(el.match(/\S+/g).length > 4){
+        var middle = Math.floor(el.length / 2);
+        var before = el.lastIndexOf(' ', middle);
+        var after = el.indexOf(' ', middle + 1);
+
+        if (middle - before < after - middle) {
+            middle = before;
+        } else {
+            middle = after;
+        }
+        var s1 = el.substr(0, middle);
+        var s2 = el.substr(middle + 1);
+
+        el = s1+"\r"+s2;
+      }
       instance.text = el;
-      var startTime = index + 1 + 0.200;
+      var startTime = index + delay + index * duration;
       instance.startTime = moment(startTime, 'ss,SSS').format("HH:mm:ss,SSS");
-      instance.endTime = moment(startTime + 1, 'ss').format("HH:mm:ss,SSS");
+      instance.endTime = moment(startTime + duration, 'ss').format("HH:mm:ss,SSS");
       arrayOfSrt.push(instance);
     });
     return arrayOfSrt;
@@ -61,6 +78,8 @@ var text2srt = (function() {
 
   mod.main = function() {
     var filename = process.argv[2];
+    delay = Number(process.argv[4]);
+    duration = Number(process.argv[5]);
     var data = JSON.parse(fs.readFileSync(filename, { encoding: 'utf-8' }));
     var key = process.argv[3];
     mod.getSrtArray(data,key)
