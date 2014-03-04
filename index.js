@@ -17,14 +17,23 @@ var text2srt = (function() {
       arrayOfSrt = [];
 
     var srt = data.split("//");
+    var currentTime = 0;
     _.each(srt, function(el, index) {
+      var timeonscreen = 2.0 + (el.length)*0.02;
+      if (el[el.length-2] == '.'){
+        timeonscreen += 0.5;
+      }
+      var timebetweenlines = 0.002;
       var instance = new srtObject();
       instance.id = index + 1;
       instance.text = el;
-      var startTime = index + 1 + 0.200;
+      //var startTime = index * (timeonscreen + timebetweenlines);
+      currentTime += timebetweenlines;
+      var startTime = currentTime;
       instance.startTime = moment(startTime, 'ss,SSS').format("HH:mm:ss,SSS");
-      instance.endTime = moment(startTime + 1, 'ss').format("HH:mm:ss,SSS");
+      instance.endTime = moment(startTime + timeonscreen, 'ss,SSS').format("HH:mm:ss,SSS");
       arrayOfSrt.push(instance);
+      currentTime += timeonscreen;
     });
     return arrayOfSrt;
 
@@ -54,7 +63,7 @@ var text2srt = (function() {
 
   mod.createFileFromObject = function(data) {
     var srt = parser.toSrt(data.srt);
-    fs.writeFile("/tmp/" + data.name + ".srt", srt, function(err) {
+    fs.writeFile("srt/" + data.name + ".txt", srt, function(err) {
       if (err) throw err;
     });
   }
